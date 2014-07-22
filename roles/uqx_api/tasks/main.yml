@@ -1,0 +1,7 @@
+---
+
+  - name: UQxParser | Git clone
+    git: repo=https://github.com/UQ-UQx/injestor.git
+       dest=/var/uqxparser/injestor
+
+  - name: UQxParser | Copy GeoIP-Country.mmdb

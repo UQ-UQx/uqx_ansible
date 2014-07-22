@@ -1,12 +1,12 @@
 ---
 
-  - name: Base | Update apt-get
+  - name: System | Update apt-get
     apt: update_cache=yes
 
-  - name: Base | Upgrade base packages
+  - name: System | Upgrade base packages
     apt: upgrade=yes
 
-  - name: Base | Install useful utilities
+  - name: System | Install useful utilities
     apt: name={{ item }} state=latest
     with_items:
     - ansible
