@@ -1,12 +1,12 @@
 ---
 
-  - name: Update apt-get
+  - name: Base | Update apt-get
     apt: update_cache=yes
 
-  - name: Upgrade base packages
+  - name: Base | Upgrade base packages
     apt: upgrade=yes
 
-  - name: Install required and useful utilities
+  - name: Base | Install useful utilities
     apt: name={{ item }} state=latest
     with_items:
     - ansible
@@ -24,14 +24,45 @@
   - name: MongoDB | Install latest MongoDB release 
     apt: pkg=mongodb-10gen state=present update_cache=yes
 
-  # Ensure service is running.
-  - name: MongoDB | Insure deamon is running correctly
+  - name: MongoDB | Ensure deamon is running correctly
     service: name=mongodb state=started
 
-  - name: Install core python utilities
+  - name: Python | Install core python utilities
     apt: name={{ item }} state=latest
     with_items:
     - python-pip
     - python-dev
     - build-essential
     - libmysqlclient-dev
+
+  - name: PIP | Upgrade
+    pip: name=pip extra_args='--upgrade'
+
+  - name: PIP | Install Standard Libraries
+    pip: name={{ item }} state=present
+    with_items:
+    - Django
+    - pymongo
+    - geoip2
+
+  - name: NGINX | Install nginx
+    apt: name=nginx
+
+  - name: NGINX | Ensure deamon is running correctly
+    service: name=nginx state=started
+
+  - name: NGINX | Ensure boot on start
+    command: update-rc.d nginx defaults
+
+  - name: MySQL | Install MySQL
+    action: apt pkg={{ item }} state=installed
+    tags: common
+    with_items:
+      - mysql-server
+      - mysql-client
+      - python-mysqldb
+
+  - name: PIP | Install MySQL bridge
+    pip: name={{ item }} state=present
+    with_items:
+    - MySQL-python
