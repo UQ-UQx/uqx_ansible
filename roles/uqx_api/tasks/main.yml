@@ -1,7 +1,97 @@
 ---
 
+#Injestor
+
   - name: UQxParser | Git clone
     git: repo=https://github.com/UQ-UQx/injestor.git
        dest=/var/uqxparser/injestor
 
   - name: UQxParser | Copy GeoIP-Country.mmdb
+    copy: src=../files/GeoIP2-Country.mmdb
+      dest=/var/uqxparser/injestor/services/iptocountry/lib/
+      owner=root
+      group=root
+      mode=0644
+
+  - name: UQxParser | Install Requirements.txt
+    pip: requirements=/var/uqxparser/injestor/requirements.txt
+
+  - name: UQxParser | Copying configuration
+    command: cp /var/uqxparser/injestor/config.example.py /var/uqxparser/injestor/config.py 
+
+  - name: UQxParser | Symlink injestor
+    file: src=/var/uqxparser/injestor/init.d/injestor dest=/etc/init.d/injestor owner=root group=root mode=0755 state=link
+
+#  - name: UQxParser | Ensure deamon is running correctly
+#    service: name=injestor state=started
+
+#UQx API
+
+  - name: UQx API | Git clone
+    git: repo=https://github.com/UQ-UQx/uqx_api.git 
+      dest=/var/www/html/api
+
+  - name: UQx API | Install Requirements.txt
+    pip: requirements=/var/www/html/api/requirements.txt
+
+  - name: UQx API | Copying configuration
+    command: cp /var/www/html/api/config.example.py /var/www/html/api/config.py 
+
+  - name: UQx API | Setup API database
+    mysql_db: name=api state=present
+
+  - name: UQx API | Set log file world writeable
+    file: path=/var/www/html/api/logs owner=www-data group=www-data mode=0777 recurse=yes
+
+  - name: UQx API | Set log file world writeable
+    file: dest=/var/www/html/api/static/ owner=www-data group=www-data mode=0777 recurse=yes state=directory
+
+  - name: UQx API | Sync database
+    django_manage: command=syncdb app_path=/var/www/html/api/
+
+  - name: UQx API | Collect static files
+    django_manage: command=collectstatic app_path=/var/www/html/api/
+
+  - name: UQx API | Permissions
+    file: path=/var/www/html/api/ owner=www-data group=www-data mode=0644
+
+  - name: UQxParser | Symlink UQx API Configuration
+    file: src=/var/www/html/api/wsgi/uqx_api_nginx.conf dest=/etc/nginx/sites-enabled/uqx_api_nginx.conf owner=root group=root mode=0755 state=link
+
+  - name: UQxParser | Symlink WSGI Script
+    file: src=/var/www/html/api/wsgi/uwsgi.conf dest=/etc/init/uwsgi.conf owner=root group=root mode=0755 state=link
+
+#Dashboard
+
+  - name: UQx Dashboard | Git clone
+    git: repo=https://github.com/UQ-UQx/dashboard_js.git
+      dest=/var/www/html/dashboard
+
+  - name: UQx Dashboard | Add npm repository
+    action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+
+  - name: UQx Dashboard | Update apt-get
+    apt: update_cache=yes
+
+  - name: UQx Dashboard | Install npm
+    action: apt pkg={{ item }} state=installed
+    with_items:
+      - nodejs
+
+  - name: UQx Dashboard | Install Bower
+    npm: name=bower global=yes
+
+  - name: UQx Dashboard | Create Bower directory
+    file: path=/var/www/html/dashboard/app/bower_components  owner=root group=root mode=0777 state=directory
+
+  - name: UQx API | Bower Install
+    command: chdir=/var/www/html/dashboard/ bower install
+    sudo: no
+
+#  - name: UQx API | Change default NGINX root to dashboard
+
+  - name: NGINX | Change root to UQX API
+    lineinfile: dest=/etc/nginx/sites-available/default regexp='root /usr/share/nginx/www;'  line='        root /var/www/html/dashboard/app;' backrefs=yes
+
+  - name: NGINX | Restart NGINX
+    service: name=nginx state=restarted

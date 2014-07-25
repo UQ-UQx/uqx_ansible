@@ -3,5 +3,4 @@
   sudo: true
 
   roles:
-  - base
   - uqx_api

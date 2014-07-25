@@ -1,0 +1,27 @@
+---
+
+#RDSI Mount
+
+  - name: RDSI Mount | Move UQXParser to mount
+    command: mv /var/uqxparser /mnt/uqxparser
+    
+- name: RDSI Mount | Link UQXParser
+    file: src=/mnt/uqxparser dest=/var/uqxparser owner=root group=root mode=0755 state=link
+
+  - name: RDSI Mount | Move MySQL to mount
+    command: mv /var/lib/mysql /mnt/mysql
+    
+- name: RDSI Mount | Link MySQL
+    file: src=/mnt/mysql dest=/var/lib/mysql owner=mysql group=mysql mode=0755 state=link
+
+  - name: RDSI Mount | Move MongoDB to mount
+    command: mv /var/lib/mongodb /mnt/mongodb
+    
+- name: RDSI Mount | Link MongoDB
+    file: src=/mnt/mongodb dest=/var/lib/mongodb owner=mongodb group=mongodb mode=0755 state=link
+
+  - name: RDSI Mount | Fix AppArmor
+    command: echo "alias /var/lib/mysql/ -> /mnt/mysql," >> /etc/apparmor.d/tunables/alias
+
+  - name: RDSI Mount | Restart AppArmor
+    service: name=apparmor state=restarted

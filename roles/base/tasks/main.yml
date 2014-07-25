@@ -12,6 +12,12 @@
     - ansible
     - lynx
     - git
+    - vim
+    - memcached
+    - python-software-properties
+
+  - name: Memcached | Ensure deamon is running correctly
+    service: name=memcached state=started
 
   - name: MongoDB | Fetch 10Gen signing key
     command: apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
@@ -44,6 +50,8 @@
     - Django
     - pymongo
     - geoip2
+    - supervisor
+    - uwsgi
 
   - name: NGINX | Install nginx
     apt: name=nginx
