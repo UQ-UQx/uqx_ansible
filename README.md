@@ -30,3 +30,8 @@ Launch NECTAR VM (optional)
 
 Configure VM with Ansible
 ---------------------
+ - Edit "vm_list" to contain your machine name/s
+ - Run script
+```bash
+ansible-playbook -i vm_list --private-key=[SSH_PRIVATE_KEY] -u [SSH_USERNAME] uqx_ansible/site.yml
+```
