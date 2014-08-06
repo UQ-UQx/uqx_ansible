@@ -14,7 +14,7 @@ default_image = '198869c6-d8f5-4972-8085-e2a5dc1e139d'
 default_setup_script = None
 default_security_group = "default"
 default_auth_url = "https://keystone.rc.nectar.org.au:5000/v2.0/"
-default_zone = None
+default_zone = 'QRIScloud'
 default_size = 'm1.large'
 
 def progress(s):
