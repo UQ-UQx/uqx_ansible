@@ -49,6 +49,9 @@
   - name: UQx API | Sync database
     django_manage: command=syncdb app_path=/var/www/html/api/
 
+#  - name: UQx API | Add superuser
+#    django_manage: command=createsuperuser
+
   - name: UQx API | Collect static files
     django_manage: command=collectstatic app_path=/var/www/html/api/
 
