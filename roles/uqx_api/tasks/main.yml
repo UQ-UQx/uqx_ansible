@@ -94,7 +94,10 @@
 #  - name: UQx API | Change default NGINX root to dashboard
 
   - name: NGINX | Change root to UQX API
-    lineinfile: dest=/etc/nginx/sites-available/default regexp='root /usr/share/nginx/www;'  line='        root /var/www/html/dashboard/app;' backrefs=yes
+    lineinfile: dest=/etc/nginx/sites-available/default regexp='root /usr/share/nginx/www;'  line='        root /var/www/html/dashboard/app;' backrefs=yes state=present
+
+  - name: NGINX | Change host to public
+    lineinfile: dest=/etc/nginx/sites-available/default regexp='servername localhost;;'  line='        servername {{ ansible_ssh_host }};' backrefs=yes state=present
 
   - name: NGINX | Restart NGINX
     service: name=nginx state=restarted

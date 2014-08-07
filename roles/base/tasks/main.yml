@@ -9,12 +9,20 @@
   - name: System | Install useful utilities
     apt: name={{ item }} state=latest
     with_items:
-    - ansible
+    - software-properties-common
     - lynx
     - git
     - vim
     - memcached
     - python-software-properties
+
+  - name: System | Set hostname
+    lineinfile: 
+      dest=/etc/hosts
+      state=present
+      line="127.0.0.1     {{ ansible_hostname }}"
+
+  #Later add ansible
 
   - name: Memcached | Ensure deamon is running correctly
     service: name=memcached state=started
