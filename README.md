@@ -35,3 +35,6 @@ Configure VM with Ansible
 ```bash
 ansible-playbook -i vm_list --private-key=[SSH_PRIVATE_KEY] -u [SSH_USERNAME] uqx_ansible/site.yml
 ```
+ - Bugs
+ 	- The first run will fail, you need to edit /etc/nginx/sites-enabled/default and delete the line in the middle of the comments on line 53, "root /var/www/html/dashboard;"
+ 	- The server requires a domain name so that api.[HOSTNAME] works
