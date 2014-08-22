@@ -1,5 +1,15 @@
 ---
 
+#apt-get install nfs-kernel-server portmap
+#on RDSI "cat /etc/mtab" and then copy IP address
+# /etc/network/interfaces ADD
+#auto eth1
+#iface eth1 inet dhcp
+#
+#sudo ifup eth1
+#vim /etc/fstab
+#add stuff from here http://www.qfab.org/2013/11/26/how-to-mount-rdsi-storage-on-nectar-virtual-machines/
+
 #RDSI Mount
 
   - name: RDSI Mount | Move UQXParser to mount

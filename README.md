@@ -12,6 +12,7 @@ Launch NECTAR VM (optional)
  - Login to the Nectar Dashboard (https://dashboard.rc.nectar.org.au)
  - Choose the correct [PROJECT_NAME]
  - Create a keypair in "Access and Security" and note the [KEY_NAME]
+ - Download the key-pair and add it to your ~/.ssh/
  - Go to "Settings" (top right)
  - Click "Reset Password"
  - Copy down the new [GENERATED_PASSWORD]
@@ -19,14 +20,15 @@ Launch NECTAR VM (optional)
  - Go to the "API Access"
  - Click "Download OpenStack RC File"
  - Run the script
- ```bash
+ ```
  source ./[PROJECT_NAME]-openrc.sh
  ```
  - Enter the API [GENERATED_PASSWORD]
  - Run the nectar script
- ```bash
+ ```
  python startvm.py -k [KEY_NAME]
  ```
+(note that KEY_NAME is not a path to a key)
 
 Configure VM with Ansible
 ---------------------

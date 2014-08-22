@@ -15,7 +15,7 @@ default_setup_script = None
 default_security_group = "default"
 default_auth_url = "https://keystone.rc.nectar.org.au:5000/v2.0/"
 default_zone = 'QRIScloud'
-default_size = 'm1.large'
+default_size = 'm1.xlarge'
 
 def progress(s):
   sys.stdout.write(s)
