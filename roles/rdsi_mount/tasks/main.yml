@@ -9,6 +9,9 @@
 #sudo ifup eth1
 #vim /etc/fstab
 #add stuff from here http://www.qfab.org/2013/11/26/how-to-mount-rdsi-storage-on-nectar-virtual-machines/
+#Remember to syncdb on API
+#Remember to stop and start mysql and mongodb
+#Need to install lxml
 
 #RDSI Mount
 

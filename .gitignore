@@ -2,3 +2,5 @@
 *.mmdb
 
 nectar/config.sh
+
+roles/uqx_api/files/setupusers.sh

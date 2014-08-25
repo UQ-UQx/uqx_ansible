@@ -1,1 +1,1 @@
-machine ansible_ssh_host=203.101.224.235 ansible_ssh_port=22
+machine ansible_ssh_host=203.101.224.253 ansible_ssh_port=22
