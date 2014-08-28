@@ -36,8 +36,11 @@
       echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list
       creates=/etc/apt/sources.list.d/10gen.list
 
-  - name: MongoDB | Install latest MongoDB release 
-    apt: pkg=mongodb-10gen state=present update_cache=yes
+  #- name: MongoDB | Install latest MongoDB release 
+  #  apt: pkg=mongodb-10gen state=present update_cache=yes
+
+  - name: MongoDB | Install latest MongoDB release
+    apt: pkg=mongodb-org state=present update_cache=yes
 
   - name: MongoDB | Ensure deamon is running correctly
     service: name=mongodb state=started
