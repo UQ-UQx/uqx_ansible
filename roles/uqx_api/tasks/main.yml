@@ -99,6 +99,10 @@
 
   - name: NGINX | Restart NGINX
     service: name=nginx state=restarted
+    
+  - name: NGINX | Set UWSGI Permissions
+    file: path=/var/www/api state=touch mode="u=rwx,g=rwx,o=rwx"
+    file: path=/var/www/api/wsgi state=touch mode="u=rwx,g=rwx,o=rwx"
 
 #Setup users, will fail if ../files/setupusers.sh does not exist
 

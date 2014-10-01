@@ -43,7 +43,7 @@
     apt: pkg=mongodb-org state=present update_cache=yes
 
   - name: MongoDB | Ensure deamon is running correctly
-    service: name=mongodb state=started
+    service: name=mongod state=started
 
   - name: Python | Install core python utilities
     apt: name={{ item }} state=latest
